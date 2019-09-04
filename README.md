@@ -53,6 +53,7 @@ python3 /path/to/hmm_sequencer -f base_content.tsv -o outdirectory/ -l 3001 -n 5
 
 The command below takes in a .tsv file with each row containing per base sequence composition (below is an example of the first 5 and last 5 positions). The base composition shown below is an average across a eRNAs called by Tfit and composition summarized by "base_content" (https://github.com/rutendos/base_content). 
 
+```sh
 	A	T	G	C
 0	0.27946011420661016	0.26613600969025786	0.23118186537463228	0.22322201072849973
 1	0.27703754974909156	0.26578992905346943	0.22945146219069043	0.22772105900674858
@@ -70,6 +71,7 @@ The command below takes in a .tsv file with each row containing per base sequenc
 2999	0.26981311645613426	0.2769077695102959	0.22603391590240526	0.22724519813116456
 3000	0.26237238276518426	0.2840024225644575	0.22222702889773316	0.231398165772625
 
+```
 
 ### Output
 
