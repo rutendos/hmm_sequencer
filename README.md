@@ -16,7 +16,7 @@ For general usage, used the help command
 ```sh
 $ python3 /bin/hmm_sequencer -h
 
-```
+
 
 usage: hmm_sequencer [-h] [-f FILE] [-e STR] [-o DIR] [-l INT] [-n INT]
                      [-s INT]
@@ -40,6 +40,7 @@ optional arguments:
                         the seed is based on the clock. If "0" a random seed
                         will be selected.
 
+```
 ## Running command
 
 
