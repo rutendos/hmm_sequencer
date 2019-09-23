@@ -51,55 +51,66 @@ def sequence_input(sequence):
 
     return(position_feq)
         
-def sequence_generator(position_feq, exp, seq_len=3001, N=500):
+def sequence_generator(bases,position_feq, N=500):
     '''takes in frequencies per position and simulates sequences using a 
     1st order Markov Model.
 
     Parameters
     ----------
+    bases : list
+        list of bases to draw from
+
     position_feq : list of lists 
         per position base frequencies
-
-    exp : str
-        name of the experiment
-
-    seq_len : int
-        length of sequence to be generated
 
     N : int
         number of sequences to be generated
     
     Returns
     -------
-    names : list
-        names for each sequence (arbritrary)
-
     generated_seqs : list
         list of sequences generated
 
     '''
 
-    num_seqs = int(N)
-    sequence_length = int(seq_len)
+    sequences = np.empty([num_seqs, len(probs)], dtype=str)
+    
+    for i in range(len(probs)):
+        column = np.random.choice(bases, N, p=position_feq[i])
+        sequences[:,i] = column
+        
+    joined_sequences = [''.join(row) for row in sequences]
+    
+    return joined_sequences
 
-    generated_seqs = []
-    names = []
+def fasta_header(exp, N):
+    """Generates random headers for the fasta file
+    
+    Parameters
+    ----------
+    exp : str
+        name of experiment (no spaces)
+    N : int
+        number of headers to be generated
+    
+    Returns
+    -------
+    headers : list
+        names for each sequence (arbritrary)
+    """
+    
+    headers =  [''.join(['>',exp,'_random_sequence_',str(i)]) for i,
+                x in enumerate(list(range(int(N))))]
+    
+    return headers
 
-    for j in range(num_seqs):
 
-        sequence = [np.random.choice(['A', 'T', 'G', 'C'], 1, p=position_feq[i])[0] for i in range(sequence_length)]
-        names.append('>' + str(exp)+'_random_sequence_'+ str(j))
-        generated_seqs.append(''.join(sequence))
-
-    return names, generated_seqs
-
-
-def write_fasta(generated_sequences, exp, outdir):
+def write_fasta(generated_sequences, headers, exp, outdir):
     ''' writes sequences generated into fasta format
     '''
 
     out_file = open(outdir + str(exp) + "_simulated.fa", "w")
 
-    for i in range(len(generated_sequences[0])):
-        out_file.write(generated_sequences[0][i] + "\n" + generated_sequences[1][i] + "\n")
+    for i in range(len(generated_sequences)):
+        out_file.write(str(headers[i]) + "\n" + str(generated_sequences[i]) + "\n" )
     out_file.close()

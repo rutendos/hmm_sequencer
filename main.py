@@ -32,7 +32,7 @@ def global_seed():
 
     print("np.random.random(",int(time.time()),") => ",np.random.random())
 
-def run(tfea_csv, experiment, outdir, seq_len = 3001, N=500, seed=True):
+def run(tfea_csv, experiment, outdir, N=500, seed=True):
     
     logfile=''.join([outdir, '/', experiment, '_LOG.txt'])
     sys.stdout = open(logfile, "w")
@@ -55,17 +55,21 @@ def run(tfea_csv, experiment, outdir, seq_len = 3001, N=500, seed=True):
     print("--------------------------------------------------------------")
     print("-----------Reading per-base sequence frequency----------------", "\n")
     ##get the sequences from teh frequency calculator
-    sequences = sequence_input(tfea_csv)
+    position_prob = sequence_input(tfea_csv)
 
     print("--------------------------------------------------------------")
     print("-----------Generating sequences-------------------------------", "\n")
     ##generate sequences
-    sequences_generating = sequence_generator(sequences, experiment, seq_len=seq_len, N = N)
+    #sequences_generating = sequence_generator(sequences, experiment, seq_len=seq_len, N = N)
+    generating_sequences = new_sequence_generator(bases=['A', 'T', 'G', 'C'], N=N, position_feq=position_prob)
+
+    generating_headers = fasta_header(experiment, N = N)
 
     print("--------------------------------------------------------------")
     print("-----------Writing sequences to fasta file--------------------", "\n")
     ##write sequences to fasta file
-    write_fasta(sequences_generating, experiment, outdir)
+    #write_fasta(sequences_generating, experiment, outdir)
+    write_fasta(generating_sequences, generating_headers, experiment, outdir)
 
     print("--------------------------------------------------------------")
     print("----------------------------DONE------------------------------")
