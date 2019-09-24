@@ -73,9 +73,9 @@ def sequence_generator(bases,position_feq, N=500):
 
     '''
 
-    sequences = np.empty([num_seqs, len(probs)], dtype=str)
+    sequences = np.empty([N, len(position_feq)], dtype=str)
     
-    for i in range(len(probs)):
+    for i in range(len(position_feq)):
         column = np.random.choice(bases, N, p=position_feq[i])
         sequences[:,i] = column
         

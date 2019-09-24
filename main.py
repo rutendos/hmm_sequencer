@@ -11,12 +11,13 @@ import numpy as np
 #----------------------------------------
 from sequence_generator import sequence_input 
 from sequence_generator import sequence_generator 
+from sequence_generator import fasta_header
 from sequence_generator import write_fasta
 
 ##original seed was 42 (for the Allen et al. 2014 data)
 #np.random.seed(42)
 
-
+start_time = int(time.time())
 def global_seed():
 
     print("-----------Setting seed for the sequence generator.-----------")
@@ -61,7 +62,7 @@ def run(tfea_csv, experiment, outdir, N=500, seed=True):
     print("-----------Generating sequences-------------------------------", "\n")
     ##generate sequences
     #sequences_generating = sequence_generator(sequences, experiment, seq_len=seq_len, N = N)
-    generating_sequences = new_sequence_generator(bases=['A', 'T', 'G', 'C'], N=N, position_feq=position_prob)
+    generating_sequences = sequence_generator(bases=['A', 'T', 'G', 'C'], N=N, position_feq=position_prob)
 
     generating_headers = fasta_header(experiment, N = N)
 
@@ -73,3 +74,6 @@ def run(tfea_csv, experiment, outdir, N=500, seed=True):
 
     print("--------------------------------------------------------------")
     print("----------------------------DONE------------------------------")
+    stop_time = int(time.time())
+
+    print("Run time :", stop_time-start_time, " seconds")
